@@ -35,8 +35,11 @@ classes = ('plane', 'car', 'bird', 'cat',
 def imshow(img):
     img = img / 2 + .5
     npimg = img.numpy()
-    plt.imshow(np.transpose(npimg, (1, 2, 0)))
-    plt.show()
+    try:
+        plt.imshow(np.transpose(npimg, (1, 2, 0)))
+        plt.show()
+    except:
+        print "plot NA"
 
 
 class Net(nn.Module):
