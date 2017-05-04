@@ -87,3 +87,8 @@ ENV/
 
 # Rope project settings
 .ropeproject
+*.gz
+cifar-10-batches-py
+
+*.swp
+*.swo
