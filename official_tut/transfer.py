@@ -50,7 +50,7 @@ import os
 havedisplay = "DISPLAY" in os.environ
 if not havedisplay:
     matplotlib.use('Agg')
-    import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 plt.ion()   # interactive mode
 
