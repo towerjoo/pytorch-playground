@@ -65,6 +65,7 @@ class Net(nn.Module):
         return x
 
 net = Net()
+wrap_cuda(net)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=.001, momentum=.9)
 
