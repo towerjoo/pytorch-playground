@@ -9,6 +9,12 @@ import torch.optim as optim
 import matplotlib.pyplot as plt
 import numpy as np
 
+
+def wrap_cuda(tensor):
+    if torch.cuda.is_available():
+        return tensor.cuda()
+    return tensor
+
 transform = transforms.Compose(
     [transforms.ToTensor(),
     transforms.Normalize((.5,.5,.5,.5), (.5,.5,.5,.5))])
@@ -63,10 +69,10 @@ for epoch in range(2):
     running_loss = 0
     for i, data in enumerate(trainloader, 0):
         inputs, labels = data
-        inputs, labels = Variable(inputs), Variable(labels)
+        inputs, labels = Variable(wrap_cuda(inputs)), Variable(wrap_cuda(labels))
 
         optimizer.zero_grad()
-        outputs = net(inputs)
+        outputs = wrap_cuda(net(inputs))
         loss = criterion(outputs, labels)
         loss.backward()
         optimizer.step()
