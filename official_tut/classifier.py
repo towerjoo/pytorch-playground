@@ -76,7 +76,7 @@ for epoch in range(2):
         inputs, labels = Variable(wrap_cuda(inputs)), Variable(wrap_cuda(labels))
 
         optimizer.zero_grad()
-        outputs = wrap_cuda(net(inputs))
+        outputs = net(inputs)
         loss = criterion(outputs, labels)
         loss.backward()
         optimizer.step()
@@ -99,3 +99,14 @@ outputs = net(Variable(images))
 _, predicted = torch.max(outputs.data, 1)
 print('Predicted: ', ' '.join('%5s' % classes[predicted[j][0]]
                               for j in range(4)))
+
+correct = 0
+total = 0
+for data in testloader:
+    images, labels = data
+    outputs = net(Variable(wrap_cuda(images)))
+    _, predicted = torch.max(outputs.data, 1)
+    total += labels.size()[0]
+    correct += (predicted == labels).sum()
+print('Accuracy of the network on the 10000 test images: %d %%' % (
+    100 * correct / total))
