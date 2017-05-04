@@ -92,3 +92,5 @@ cifar-10-batches-py
 
 *.swp
 *.swo
+*.zip
+hymenoptera_data
