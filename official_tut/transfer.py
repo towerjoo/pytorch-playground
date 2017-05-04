@@ -42,10 +42,15 @@ from torch.autograd import Variable
 import numpy as np
 import torchvision
 from torchvision import datasets, models, transforms
-import matplotlib.pyplot as plt
+import matplotlib
 import time
 import copy
 import os
+
+havedisplay = "DISPLAY" in os.environ
+if not havedisplay:
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
 
 plt.ion()   # interactive mode
 
