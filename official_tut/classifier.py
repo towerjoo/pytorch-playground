@@ -33,6 +33,7 @@ classes = ('plane', 'car', 'bird', 'cat',
 
 
 def imshow(img):
+    return
     img = img / 2 + .5
     npimg = img.numpy()
     try:
@@ -68,7 +69,7 @@ net = wrap_cuda(Net())
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=.001, momentum=.9)
 
-for epoch in range(1):
+for epoch in range(2):
     running_loss = 0
     for i, data in enumerate(trainloader, 0):
         inputs, labels = data
@@ -107,6 +108,7 @@ for data in testloader:
     images, labels = data
     outputs = net(Variable(wrap_cuda(images)))
     _, predicted = torch.max(outputs.data, 1)
+    predicted = predicted.squeeze()
     total += labels.size()[0]
     correct += (predicted == labels).sum()
     c = (predicted == labels).squeeze()
