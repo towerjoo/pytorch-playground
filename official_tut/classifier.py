@@ -64,12 +64,11 @@ class Net(nn.Module):
         x = self.fc3(x)
         return x
 
-net = Net()
-wrap_cuda(net)
+net = wrap_cuda(Net())
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=.001, momentum=.9)
 
-for epoch in range(2):
+for epoch in range(1):
     running_loss = 0
     for i, data in enumerate(trainloader, 0):
         inputs, labels = data
@@ -95,18 +94,29 @@ print('GroundTruth: ', ' '.join('%5s' % classes[labels[j]] for j in range(4)))
 # print images
 imshow(torchvision.utils.make_grid(images))
 
-outputs = net(Variable(images))
+outputs = net(Variable(wrap_cuda(images)))
 _, predicted = torch.max(outputs.data, 1)
 print('Predicted: ', ' '.join('%5s' % classes[predicted[j][0]]
                               for j in range(4)))
 
 correct = 0
 total = 0
+class_correct = list(0. for i in range(10))
+class_total = list(0. for i in range(10))
 for data in testloader:
     images, labels = data
     outputs = net(Variable(wrap_cuda(images)))
     _, predicted = torch.max(outputs.data, 1)
     total += labels.size()[0]
     correct += (predicted == labels).sum()
+    c = (predicted == labels).squeeze()
+    for i in range(4):
+        label = labels[i]
+        class_correct[label] += c[i]
+        class_total[label] += 1
 print('Accuracy of the network on the 10000 test images: %d %%' % (
     100 * correct / total))
+
+for i in range(10):
+    print('Accuracy of %5s : %2d %%' % (
+                classes[i], 100 * class_correct[i] / class_total[i]))
