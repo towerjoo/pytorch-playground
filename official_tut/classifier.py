@@ -108,7 +108,7 @@ for data in testloader:
     images, labels = data
     outputs = net(Variable(wrap_cuda(images)))
     _, predicted = torch.max(outputs.data, 1)
-    predicted = predicted.squeeze()
+    labels = wrap_cuda(labels)
     total += labels.size()[0]
     correct += (predicted == labels).sum()
     c = (predicted == labels).squeeze()
