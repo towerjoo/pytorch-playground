@@ -69,7 +69,8 @@ net = wrap_cuda(Net())
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=.001, momentum=.9)
 
-for epoch in range(2):
+nepoch = 10
+for epoch in range(nepoch):
     running_loss = 0
     for i, data in enumerate(trainloader, 0):
         inputs, labels = data
