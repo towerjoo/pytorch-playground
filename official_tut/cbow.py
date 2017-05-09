@@ -35,8 +35,6 @@ class CBOW(nn.Module):
 
     def forward(self, inputs):
         #import ipdb;ipdb.set_trace()
-        print inputs.size()
-        print self.embedding
         embeds = self.embedding(inputs).view(1, -1)
         out = F.relu(self.linear1(embeds))
         out = self.linear2(out)
